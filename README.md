@@ -1,6 +1,6 @@
 # Cyclist-Helmet-Headlamp-and-Side-Indicators-Textile-Sensors
 
-This aim of this project to build capacitive touch sensors, which will be used to control the Headlamp and Side Indicators.
+This aim of this project is to build capacitive touch sensors, which will be used to control the Headlamp and Side Indicators.
 The Headlamp is operated in two modes automatic and manual mode.
 In manual mode the Headlamp is turned on by depressing its respective touch sensor located at the base of the helmet
 In automatic mode the Headlamp is turned on by a Light Sensor, in poor visibilty. 
