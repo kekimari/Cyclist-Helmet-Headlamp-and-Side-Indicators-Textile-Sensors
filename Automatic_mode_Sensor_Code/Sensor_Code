@@ -1,1 +1,35 @@
+#define headLamp 13
+#define ADC0 A0
 
+bool headLampState = false; 
+int value = 0;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(headLamp, OUTPUT);
+  pinMode(ADC0, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  value = analogRead(ADC0);
+  //delay(100);
+  //Serial.print(value);
+  //Serial.print("\n");
+
+  if (value < 420 & headLampState == false ) {
+    digitalWrite(headLamp, HIGH);
+    headLampState = true; 
+    Serial.print(value);
+    Serial.print("\n");
+
+  }
+  else if (value > 420 & headLampState == true ){
+     digitalWrite(headLamp, LOW);
+     headLampState = false; 
+     Serial.print(value);
+     Serial.print("\n");
+  }
+}
