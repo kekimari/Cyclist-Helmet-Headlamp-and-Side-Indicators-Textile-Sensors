@@ -1,1 +1,6 @@
-
+Simulated Left and Right LED on tinkercad.
+The simulation was to test out the circuitry in addition to the Interrupt Routines (ISR). 
+Lesson learnt from this is we have only 2 external intterupts on Arduino. 
+The project needs 3 external interrupt pins to control the Headlmap as well. 
+I choose to switch to ESP8266, which can accomodate these requirements.
+The circuit has been on ESP8266 and testing will be moving forward using this board.
