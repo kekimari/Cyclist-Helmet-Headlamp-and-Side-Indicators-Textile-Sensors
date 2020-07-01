@@ -1,1 +1,5 @@
-
+The Left and Right LEDS are controlled via external interrupts.
+The interrupts are triggered only when a signal is detected from the respective pin.
+Note, both LEDs cannot be blinking at the same time, thus if one is blinking and an interrupt occurs the other one is stopped.
+In order to avoid the occurence that a interrupt occurs when one LED is on and retunr to this state when the LED that interrupted is off, a non-interrupt has been wrapped around 
+the crtical section, section where an interrupt cannot occur.
