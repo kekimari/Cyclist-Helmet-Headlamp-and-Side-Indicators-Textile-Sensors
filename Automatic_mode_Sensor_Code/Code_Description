@@ -1,0 +1,2 @@
+The code is for Calibration of the sensor, to test the sensitivity in different light regions. 
+Thus create a proper threshold of when to turn on the Headlamp based on sensor readings. 
