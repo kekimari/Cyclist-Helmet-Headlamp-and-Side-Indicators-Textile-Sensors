@@ -1,3 +1,0 @@
-The prototypes images are namely :  the Headlamp, Right and Left Indicators and Circuit with sensor for automatic mode connected to an Arduino board.
-The indicators circuit is missing the push buttons which on the final product will be replaced by the capacitive sensors
-Initial testing without the push buttons was done manually by activating the Right and Left Indicators through the code by a acivating a HIGH signal. 
