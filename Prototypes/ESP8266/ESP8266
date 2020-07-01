@@ -1,0 +1,2 @@
+The prototype has HeadLamp (Red Led), Left and Right Indicators(Yellow Leds). in addition to the Light sensor for automatic mode.
+The final board of choice is the ESP8266 because all the pins with the exception of GPIO16(D0) have external interrupt capability, opposed to only 2 pins on the Arduino UNO board.
