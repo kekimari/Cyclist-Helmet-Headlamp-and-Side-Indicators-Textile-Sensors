@@ -1,1 +1,69 @@
+#define rightIndicator 7
+#define leftIndicator 8
+#define interrupt0 0
+#define interrupt1 1
 
+
+volatile static boolean leftState = false;
+volatile static boolean rightState = false;
+volatile int count = 0;
+
+/*
+ Arduino uses Pin 2 and Pin 3 for hardware interrupts
+ Pin2 is interrupt 0
+ Pin3 is interrupt 1
+*/
+
+
+void setup(){
+  pinMode(rightIndicator | leftIndicator, OUTPUT);
+  pinMode(interrupt0 | interrupt1, INPUT);
+  attachInterrupt(interrupt0,rightPressed,RISING);
+  attachInterrupt(interrupt1,leftPressed,RISING);
+}
+
+
+
+void loop(){
+  if(rightState == 1 & count < 10){
+    
+    noInterrupts();
+    
+    digitalWrite(rightIndicator, HIGH);
+  	delay(600);
+   
+  	digitalWrite(rightIndicator, LOW);
+  	delay(600);
+   
+    count++;
+    interrupts();
+  }
+  else if(leftState == 1 & count < 10){
+    noInterrupts();
+    
+    digitalWrite(leftIndicator, HIGH);
+  	delay(600);
+    
+  	digitalWrite(leftIndicator, LOW);
+    delay(600);
+    
+    count++;
+    
+    interrupts();
+  }
+  
+}
+
+void rightPressed ()
+{
+  leftState = 0; 
+  rightState = 1; 
+  count = 0;
+}
+
+void leftPressed ()
+{
+  rightState = 0; 
+  leftState = 1; 
+  count = 0;
+}
