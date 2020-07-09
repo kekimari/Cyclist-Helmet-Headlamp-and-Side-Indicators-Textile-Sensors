@@ -1,0 +1,110 @@
+#define touchSensorRight 5 
+#define rightLed 4 /* RED LED ON BOARD*/
+#define touchSensorLeft 14 
+#define leftLed 12 /* YELLOW LED ON BOARD*/
+#define touchSensorHeadLamp 13 
+#define headLampLed 2 /* RED LED ON BOARD FOR HEAD;AMP*/
+#define blinkcount 10
+
+
+/* Variables to incremment the counter for 
+   the number of times the LEDs blink 
+*/
+int counter = 0;
+
+volatile static boolean rightState = false;
+volatile static boolean leftState = false;
+volatile static boolean headLampState = false;
+
+void ICACHE_RAM_ATTR rightSensor();
+void ICACHE_RAM_ATTR leftSensor();
+void ICACHE_RAM_ATTR headLampSensor();
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(rightLed, OUTPUT);
+  pinMode(leftLed, OUTPUT);
+  pinMode(headLampLed, OUTPUT);
+  pinMode(touchSensorRight, INPUT);
+  pinMode(touchSensorLeft, INPUT);
+  pinMode(touchSensorHeadLamp, INPUT);
+  
+  attachInterrupt(digitalPinToInterrupt(touchSensorRight), rightSensor, RISING);
+  attachInterrupt(digitalPinToInterrupt(touchSensorLeft), leftSensor, RISING);
+  attachInterrupt(digitalPinToInterrupt(touchSensorHeadLamp), headLampSensor, RISING);
+  Serial.begin(9600);
+}
+
+
+
+void loop() 
+{
+
+
+    if (headLampState == 1)
+      {
+        digitalWrite(headLampLed, HIGH);
+        //headLampState = 0;
+      }
+    else if (headLampState == 0)
+      {
+        digitalWrite(headLampLed, LOW);
+      }
+    if (rightState == 1) 
+      {
+        if (counter < blinkcount)
+        {
+            Serial.println("Blinking RED LED");
+            Serial.println(counter);
+           
+            //noInterrupts();
+            digitalWrite(rightLed, HIGH);
+            delay(600);
+           
+            digitalWrite(rightLed, LOW);
+            delay(600);
+            //interrupts();
+
+            counter++;
+            
+          }
+          //rightState = 0;
+      }
+
+     else if (leftState == 1)
+       {
+        if (counter < blinkcount)
+          {
+              Serial.println("Blinking YELLOW LED");
+              Serial.println(counter);
+
+             
+              digitalWrite(leftLed, HIGH);
+              delay(600);
+             
+              digitalWrite(leftLed, LOW);
+              delay(600);
+              counter++;
+              
+            }
+            //leftState = 0;
+        }
+}
+
+void rightSensor()
+  {
+    rightState = !rightState;  
+    leftState = 0; 
+    counter = 0;
+  }
+ void leftSensor()
+  {
+    leftState = !leftState; 
+    rightState = 0; 
+    counter = 0;
+  }
+
+ void headLampSensor()
+  {
+    headLampState = !headLampState;
+  }
