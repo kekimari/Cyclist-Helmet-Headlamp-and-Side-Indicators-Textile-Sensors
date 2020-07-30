@@ -1,0 +1,145 @@
+/* Macro Definitions */
+#define touchSensorRight 5 
+#define rightLed 4 /* RED LED ON BOARD*/
+#define touchSensorLeft 14 
+#define leftLed 12 /* YELLOW LED ON BOARD*/
+#define touchSensorHeadLamp 13 
+#define headLampLed 2 /* RED LED ON BOARD FOR HEADLAMP*/
+#define blinkcount 10
+#define ADC0 A0
+
+
+/* Variables to incremment the counter for 
+   the number of times the LEDs blink 
+*/
+int counter = 0;
+int value = 0;
+
+/* Initial States of LEDs */
+volatile static boolean rightState = false;
+volatile static boolean leftState = false;
+volatile static boolean headLampState = false;
+
+/* Interrupts paced in the RAM, based on using Arduino IDE*/
+void ICACHE_RAM_ATTR rightSensor();
+void ICACHE_RAM_ATTR leftSensor();
+void ICACHE_RAM_ATTR headLampSensor();
+
+void setup() {
+  // put your setup code here, to run once:
+  /*
+   * Individual pinMode declared for each Pin
+   * Please Note DO NOT USE OR STATEMENT TO DECLARE GROUP OF INPUT OR OUPUTS
+   * THE SOFTWARE WILL PICK THE HIGHEST PIN NUMBER AND THE REST OF THE PINS 
+   * WILL BE IN HIGH IMPEDANCE MODE
+   */
+  pinMode(rightLed, OUTPUT);
+  pinMode(leftLed, OUTPUT);
+  pinMode(headLampLed, OUTPUT);
+  pinMode(touchSensorRight, INPUT);
+  pinMode(touchSensorLeft, INPUT);
+  pinMode(touchSensorHeadLamp, INPUT);
+
+  pinMode(ADC0, INPUT);
+  Serial.begin(9600);
+  
+  attachInterrupt(digitalPinToInterrupt(touchSensorRight), rightSensor, RISING);
+  attachInterrupt(digitalPinToInterrupt(touchSensorLeft), leftSensor, RISING);
+  attachInterrupt(digitalPinToInterrupt(touchSensorHeadLamp), headLampSensor, RISING);
+  Serial.begin(9600);
+}
+
+
+
+void loop() 
+{
+    //Used for debugging
+    value = analogRead(ADC0);
+    Serial.print(value);
+    delay(1000);
+    Serial.print("\n");
+    
+
+
+    if (value > 670 & headLampState == false ) 
+       {
+        digitalWrite(headLampLed, HIGH);
+        headLampState = true; 
+        Serial.print(value);
+        Serial.print("\n");
+      }
+    else if (value < 420 & headLampState == true )
+      {
+         digitalWrite(headLampLed, LOW);
+         headLampState = false; 
+         Serial.print(value);
+         Serial.print("\n");
+      }
+
+    if (headLampState == 1)
+      {
+        digitalWrite(headLampLed, HIGH);
+        //headLampState = 0;
+      }
+    else if (headLampState == 0)
+      {
+        digitalWrite(headLampLed, LOW);
+      }
+    if (rightState == 1) 
+      {
+        if (counter < blinkcount)
+        {
+            Serial.println("Blinking RED LED");
+            Serial.println(counter);
+           
+            //noInterrupts();
+            digitalWrite(rightLed, HIGH);
+            delay(600);
+           
+            digitalWrite(rightLed, LOW);
+            delay(600);
+            //interrupts();
+
+            counter++;
+            
+          }
+          //rightState = 0;
+      }
+
+     else if (leftState == 1)
+       {
+        if (counter < blinkcount)
+          {
+              Serial.println("Blinking YELLOW LED");
+              Serial.println(counter);
+
+             
+              digitalWrite(leftLed, HIGH);
+              delay(600);
+             
+              digitalWrite(leftLed, LOW);
+              delay(600);
+              counter++;
+              
+            }
+            //leftState = 0;
+        }
+}
+
+void rightSensor()
+  {
+    rightState = !rightState;  
+    leftState = 0; 
+    counter = 0;
+  }
+ void leftSensor()
+  {
+    leftState = !leftState; 
+    rightState = 0; 
+    counter = 0;
+  }
+
+ void headLampSensor()
+  {
+    headLampState = !headLampState;
+  }
