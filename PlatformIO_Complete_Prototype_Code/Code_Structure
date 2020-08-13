@@ -1,0 +1,4 @@
+The Cyclist_Helmet_Complete_Operation folder conatains the file structure of the whole project
+Functions can be found in the lib/sensor_functions folder
+The main source code resides in src folder
+The platformio configuration file specifies the board used, nodemcu which is a family of devices under esp8266 
