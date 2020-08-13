@@ -1,0 +1,1 @@
+bool AutomodeFunc( int , bool );

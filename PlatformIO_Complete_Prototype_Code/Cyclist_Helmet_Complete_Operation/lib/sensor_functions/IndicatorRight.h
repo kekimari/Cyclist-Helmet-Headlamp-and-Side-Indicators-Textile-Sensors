@@ -1,0 +1,1 @@
+void IndicatorRightFunc( int , int);
